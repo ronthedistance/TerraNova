@@ -17,7 +17,7 @@ resource "aws_subnet" "project1-public-subnet" {
   availability_zone = "us-west-1b"
 
   tags = {
-    Name = "blog_subnet_public"
+    Name = "project1_subnet_public"
   }
 }
 
