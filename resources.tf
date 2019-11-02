@@ -1,5 +1,5 @@
 # create a VPC
-resource "aws_vpc" "blog-vpc" {
+resource "aws_vpc" "project1-vpc" {
   cidr_block           = "10.0.0.0/16"
   enable_dns_hostnames = true
   enable_dns_support   = true
@@ -13,7 +13,7 @@ resource "aws_vpc" "blog-vpc" {
 
 resource "aws_subnet" "project1-public-subnet" {
   cidr_block        = "10.0.0.0/24"
-  vpc_id            = "${aws_vpc.blog-vpc.id}"
+  vpc_id            = "${aws_vpc.project1-vpc.id}"
   availability_zone = "us-west-1b"
 
   tags = {
