@@ -17,7 +17,7 @@ data "aws_ami" "ubuntu" {
 }
 
 # EC2 instance as app server
-resource "aws_instance" "blog-app" {
+resource "aws_instance" "project1-app" {
   # take result from 'data' block above and assign to ami property of instance
   ami           = "${data.aws_ami.ubuntu.id}"
   instance_type = "t2.micro"
