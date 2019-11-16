@@ -12,7 +12,7 @@ resource "aws_vpc" "blog-vpc" {
 # create public subnet
 
 resource "aws_subnet" "project1-public-subnet" {
-  cidr_block        = "10.0.0.0/24"
+  cidr_block        = "10.0.0.0/22
   vpc_id            = "${aws_vpc.blog-vpc.id}"
   availability_zone = "us-west-1b"
 
@@ -23,7 +23,7 @@ resource "aws_subnet" "project1-public-subnet" {
 
 # create private subnet
 resource "aws_subnet" "project1-private-subnet" {
-  cidr_block        = "10.0.1.0/24"
+  cidr_block        = "10.0.32.0/20
   vpc_id            = "${aws_vpc.project1-vpc.id}"
   availability_zone = "us-west-1b"
 
