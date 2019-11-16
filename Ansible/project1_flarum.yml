@@ -1,0 +1,146 @@
+---
+- hosts: localhost
+  tasks:
+  - name: get package tasksel
+    become: yes
+    apt: pkg=tasksel state=latest
+  - name: install LAMP using tasksel
+    become: yes
+    command: tasksel install lamp-server
+  - name: install all needed packages
+    become: yes
+    apt: pkg={{ item }} state=latest
+    with_items:
+    - fail2ban
+    - curl
+    - git
+    - sed
+    - vim
+    - zip
+    - php
+    - php-cli
+    - php-curl
+    - php-dom
+    - php-gd
+    - php-json
+    - php-mysql
+    - php-mbstring
+    - php-tokenizer
+    - php-xml
+    - php-zip
+    - python-mysqldb
+#  - name: Adds Python MySQL support on Debian/Ubuntu
+#    apt: pkg="python-mysqldb" state=present
+#  - name: Sets the root password 
+#    mysql_user: user=root password="{{ mysql_root_password }}" host=localhost
+#  - name: Deletes anonymous MySQL server user for ansible_fqdn
+#    mysql_user: user="" host="{{ ansible_fqdn }}" state="absent"
+#  - name: Deletes anonymous MySQL server user for localhost
+#    mysql_user: user="" state="absent"
+#  - name: Secures the MySQL root user for IPV6 localhost (::1)
+#    mysql_user: user="root" password="{{ mysql_root_password }}" host="::1"
+#  - name: Secures the MySQL root user for IPV4 localhost (127.0.0.1)
+#    mysql_user: user="root" password="{{ mysql_root_password }}" host="127.0.0.1"
+#  - name: Secures the MySQL root user for localhost domain (localhost)
+#    mysql_user: user="root" password="{{ mysql_root_password }}" host="localhost"
+#  - name: Secures the MySQL root user for server_hostname domain
+#    mysql_user: user="root" password="{{ mysql_root_password }}" host="{{ ansible_fqdn }}"
+#  - name: Removes the MySQL test database
+#    mysql_db: db=test state=absent
+#  - name: adding database named flarum
+#    mysql_db:
+#      login_unix_socket: /var/run/mysqld/mysqld.sock
+#      name: flarum
+#      state: present
+#  - name: create user flarum on database flarum, and give all privileges 
+#    mysql_user:
+#      name: flarum
+#      password: password
+#      priv: 'flarum.*:ALL,GRANT'
+#      state: present
+  - name: download composer
+    become: yes
+    shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+  - name: remove files from install directory
+    become: yes
+    file:
+      path: "/var/www/html/index.html"
+      state: absent
+  - name: create a flarum project on composer
+    become: yes
+    command: composer create-project flarum/flarum . --stability=beta
+    args:
+      chdir: /var/www/html
+  - name: modify apache2 config to point to flarum
+    become: yes
+    shell: sed -i "s%DocumentRoot /var/www/html%DocumentRoot /var/www/html/public%g" /etc/apache2/sites-available/000-default.conf
+  - name: modify apache2 config to allow rewrite
+    become: yes
+    blockinfile:
+      path: /etc/apache2/sites-available/000-default.conf
+      insertafter: "DocumentRoot /var/www/html/public"
+      block: |
+        <Directory /var/www/html/public>
+          AllowOverride All
+        </Directory>
+  - name: modify apache2 config to point to flarum
+    become: yes
+    shell: sed -i "s%DocumentRoot /var/www/html%DocumentRoot /var/www/html/public%g" /etc/apache2/sites-available/default-ssl.conf
+  - name: modify apache2 config to allow rewrite
+    become: yes
+    blockinfile:
+      path: /etc/apache2/sites-available/default-ssl.conf
+      insertafter: "DocumentRoot /var/www/html/public"
+      block: |
+        <Directory /var/www/html/public>
+          AllowOverride All
+        </Directory>
+  - name: permissions for apache2 part 1
+    become: yes
+    file:
+      path: "/var/www/html/"
+      state: directory
+      owner: www-data
+      group: www-data
+      mode: 0755
+      recurse: true
+  - name: permissions for apache2 part 2
+    become: yes
+    file:
+      path: "/var/www/html/public/assets"
+      state: directory
+      owner: www-data
+      group: www-data
+      mode: 0755
+      recurse: true
+  - name: permissions for apache2 part 3
+    become: yes
+    file:
+      path: "/var/www/html/storage"
+      state: directory
+      owner: www-data
+      group: www-data
+      mode: 0755
+      recurse: true
+  - name: enable ssl through mod_ssl part 1 
+    become: yes
+    command: a2enmod ssl
+  - name: enable ssl through mod_ssl part 2 
+    become: yes
+    command: a2ensite default-ssl
+  - name: enable mod rewrite
+    become: yes
+    command: a2enmod rewrite
+  - name: allow ssh through ufw
+    become: yes
+    command: ufw allow ssh
+  - name: enable firewall
+    become: yes
+    service:
+      name: ufw
+      state: started
+  - name: start Apache
+    become: yes
+    service:
+      name: apache2
+      state: restarted
