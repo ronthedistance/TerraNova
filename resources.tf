@@ -144,7 +144,7 @@ resource "aws_security_group" "private-security-group" {
     to_port   = 22
     protocol  = "tcp"
 
-    # cidr_blocks = ["0.0.0.0/0"] # no CIDR block, specify subnet instead
+    cidr_blocks = ["10.0.0.16"] # no CIDR block, specify subnet instead
     # Allow incoming connections only from public subnet
     security_groups = ["${aws_security_group.public-security-group.id}"]
   }
