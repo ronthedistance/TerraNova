@@ -1,7 +1,7 @@
 resource "aws_instance" "public" {
 
         ami = "ami-06d51e91cea0dac8d"
-        instance_type = "t2.micro"
+        instance_type = "t2.small"
         associate_public_ip_address = true
 
         vpc_security_group_ids = ["sg-0c4f191bcd7b245d7"]
@@ -20,7 +20,7 @@ resource "aws_instance" "public" {
 resource "aws_instance" "private" {
 
 		ami = "ami-06d51e91cea0dac8d"
-		instance_type = "t2.micro"
+		instance_type = "t2.small"
 
 
 		vpc_security_group_ids = ["sg-0eb48eee9c012fa74"]
@@ -39,7 +39,7 @@ resource "aws_instance" "private" {
 resource "aws_instance" "private2" {
 
 		ami = "ami-06d51e91cea0dac8d"
-		instance_type = "t2.micro"
+		instance_type = "t2.small"
 
 
 		vpc_security_group_ids = ["sg-0eb48eee9c012fa74"]
