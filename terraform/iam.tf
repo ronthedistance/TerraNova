@@ -22,3 +22,36 @@ resource "aws_iam_group_membership" "team" {
         users = ["ron","marcin","darren","genna"]
         group = "${aws_iam_group.group.name}"
 }
+
+# For Ron's Lambda
+resource "aws_iam_role" "test_role" {
+  name = "test_role"
+
+  assume_role_policy = <<EOF
+ "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "arn:aws:logs:*:*:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:Start*",
+        "ec2:Stop*"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+
+  tags = {
+    tag-key = "tag-value"
+  }
+}
