@@ -242,7 +242,7 @@ resource "aws_eip" "gateway-elastic-ip" {
 
 # provision NAT gateway
 resource "aws_nat_gateway" "nat-gateway" {
-  subnet_id     = "${aws_subnet.project1-public-subnet.id}" # subnet should be public subnet
+  subnet_id     = "${aws_subnet.project1-public-subnet1.id}" # subnet should be public subnet
   allocation_id = "${aws_eip.gateway-elastic-ip.id}"    # must have an elastic IP associated
 
   tags = {
