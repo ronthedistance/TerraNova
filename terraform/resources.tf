@@ -19,7 +19,7 @@ resource "aws_vpc" "project1-vpc" {
 resource "aws_subnet" "project1-public-subnet1" {
   cidr_block        = "172.16.0.0/22"
   vpc_id            = "${aws_vpc.project1-vpc.id}"
-  availability_zone = "us-west-1b"
+  availability_zone = "us-west-1a"
 
   tags = {
     Name = "project1_subnet_public1"
@@ -39,7 +39,7 @@ resource "aws_subnet" "project1-public-subnet2" {
 resource "aws_subnet" "project1-public-subnet3" {
   cidr_block        = "172.16.8.0/22"
   vpc_id            = "${aws_vpc.project1-vpc.id}"
-  availability_zone = "us-west-1b"
+  availability_zone = "us-west-1c"
 
   tags = {
     Name = "project1_subnet_public3"
@@ -50,7 +50,7 @@ resource "aws_subnet" "project1-public-subnet3" {
 resource "aws_subnet" "project1-private-subnet1" {
   cidr_block        = "172.16.16.0/20"
   vpc_id            = "${aws_vpc.project1-vpc.id}"
-  availability_zone = "us-west-1b"
+  availability_zone = "us-west-1a"
 
   tags = {
     Name = "project1_subnet_private1"
@@ -72,7 +72,7 @@ resource "aws_subnet" "project1-private-subnet2" {
 resource "aws_subnet" "project1-private-subnet3" {
   cidr_block        = "172.16.48.0/20"
   vpc_id            = "${aws_vpc.project1-vpc.id}"
-  availability_zone = "us-west-1b"
+  availability_zone = "us-west-1c"
 
   tags = {
     Name = "project1_subnet_private"
@@ -143,7 +143,13 @@ resource "aws_security_group" "public-security-group" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
+    #DNS Traffic
+    ingress {
+    from_port   = 53
+    to_port     = 53
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   # ssh outbound to be able to connect to private subnet
   egress {
     from_port   = 22
@@ -197,7 +203,7 @@ resource "aws_security_group" "private-security-group" {
     # Allow incoming connections only from public subnet
     security_groups = ["${aws_security_group.public-security-group.id}"]
   }
-
+  #
   # HTTP
   egress {
     from_port   = 80
@@ -241,7 +247,7 @@ resource "aws_route_table" "project1-private-route-table" {
   vpc_id = "${aws_vpc.project1-vpc.id}"
 
   # Note that the default route, mapping the VPC's CIDR block to "local", is created implicitly and cannot be specified.
-  # cidr_block = "10.0.0.0/16" is implied
+  # cidr_block = "172.16.0.0/16" is implied
 
   route {
     # destination
