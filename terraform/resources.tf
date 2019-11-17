@@ -112,7 +112,15 @@ resource "aws_route_table" "project1-public-route-table" {
 
 # associate a subnet with the route table (public subnet in this case)
 resource "aws_route_table_association" "route-table-association-public" {
-  subnet_id      = "${aws_subnet.project1-public-subnet.id}"
+  subnet_id      = "${aws_subnet.project1-public-subnet1.id}"
+  route_table_id = "${aws_route_table.project1-public-route-table.id}"
+}
+resource "aws_route_table_association" "route-table-association-public" {
+  subnet_id      = "${aws_subnet.project1-public-subnet2.id}"
+  route_table_id = "${aws_route_table.project1-public-route-table.id}"
+}
+resource "aws_route_table_association" "route-table-association-public" {
+  subnet_id      = "${aws_subnet.project1-public-subnet3.id}"
   route_table_id = "${aws_route_table.project1-public-route-table.id}"
 }
 
@@ -263,6 +271,15 @@ resource "aws_route_table" "project1-private-route-table" {
 
 # associate new route table with private subnet
 resource "aws_route_table_association" "route-table-association-private" {
-  subnet_id      = "${aws_subnet.project1-private-subnet.id}"
+  subnet_id      = "${aws_subnet.project1-private-subnet1.id}"
+  route_table_id = "${aws_route_table.project1-private-route-table.id}"
+}
+resource "aws_route_table_association" "route-table-association-private" {
+  subnet_id      = "${aws_subnet.project1-private-subnet2.id}"
+  route_table_id = "${aws_route_table.project1-private-route-table.id}"
+}
+
+resource "aws_route_table_association" "route-table-association-private" {
+  subnet_id      = "${aws_subnet.project1-private-subnet3.id}"
   route_table_id = "${aws_route_table.project1-private-route-table.id}"
 }
