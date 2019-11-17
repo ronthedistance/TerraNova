@@ -16,7 +16,6 @@ Group Members:
 All documentation is in the wiki
 
 Here are some quick links:
-
 - [Infrastructure Diagram](https://github.com/ronthedistance/TerraNova/wiki/Infrastructure)
 - [IAM Users Creation](https://github.com/ronthedistance/TerraNova/wiki/%5BTerraform%5D-Setting-up-IAM-accounts)
 - [Load Balancer and Route53](https://github.com/ronthedistance/TerraNova/wiki/%5BTerraform%5D-Setting-up-Load-Balancer-and-Route53)

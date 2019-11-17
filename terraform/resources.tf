@@ -19,7 +19,7 @@ resource "aws_vpc" "project1-vpc" {
 resource "aws_subnet" "project1-public-subnet1" {
   cidr_block        = "172.16.0.0/22"
   vpc_id            = "${aws_vpc.project1-vpc.id}"
-  availability_zone = "us-west-1a"
+  availability_zone = "us-west-2a"
 
   tags = {
     Name = "project1_subnet_public1"
@@ -29,7 +29,7 @@ resource "aws_subnet" "project1-public-subnet1" {
 resource "aws_subnet" "project1-public-subnet2" {
   cidr_block        = "172.16.4.0/22"
   vpc_id            = "${aws_vpc.project1-vpc.id}"
-  availability_zone = "us-west-1b"
+  availability_zone = "us-west-2b"
 
   tags = {
     Name = "project1_subnet_public2"
@@ -39,7 +39,7 @@ resource "aws_subnet" "project1-public-subnet2" {
 resource "aws_subnet" "project1-public-subnet3" {
   cidr_block        = "172.16.8.0/22"
   vpc_id            = "${aws_vpc.project1-vpc.id}"
-  availability_zone = "us-west-1c"
+  availability_zone = "us-west-2c"
 
   tags = {
     Name = "project1_subnet_public3"
@@ -50,7 +50,7 @@ resource "aws_subnet" "project1-public-subnet3" {
 resource "aws_subnet" "project1-private-subnet1" {
   cidr_block        = "172.16.16.0/20"
   vpc_id            = "${aws_vpc.project1-vpc.id}"
-  availability_zone = "us-west-1a"
+  availability_zone = "us-west-2a"
 
   tags = {
     Name = "project1_subnet_private1"
@@ -61,7 +61,7 @@ resource "aws_subnet" "project1-private-subnet1" {
 resource "aws_subnet" "project1-private-subnet2" {
   cidr_block        = "172.16.32.0/20"
   vpc_id            = "${aws_vpc.project1-vpc.id}"
-  availability_zone = "us-west-1b"
+  availability_zone = "us-west-2b"
 
   tags = {
     Name = "project1_subnet_private2"
@@ -72,7 +72,7 @@ resource "aws_subnet" "project1-private-subnet2" {
 resource "aws_subnet" "project1-private-subnet3" {
   cidr_block        = "172.16.48.0/20"
   vpc_id            = "${aws_vpc.project1-vpc.id}"
-  availability_zone = "us-west-1c"
+  availability_zone = "us-west-2c"
 
   tags = {
     Name = "project1_subnet_private"
