@@ -21,7 +21,4 @@ resource "aws_dynamodb_table" "dynamodb-tf-state-lock" {
     type = "S"
   }
 
-  tags {
-    Name = "DynamoDB tf state locking"
-  }
 } 
