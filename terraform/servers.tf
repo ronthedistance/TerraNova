@@ -23,11 +23,11 @@ resource "aws_instance" "project1-app" {
   instance_type = "t2.micro"
 
   tags {
-    Name = "blog_app"
+    Name = "project1_app"
   }
 
   # assign this instance to public subnet created in resources.tf file
-  subnet_id = "${aws_subnet.blog-public-subnet.id}"
+  subnet_id = "${aws_subnet.project1-public-subnet.id}"
 
   # assign public IP automatically
   associate_public_ip_address = true
@@ -35,28 +35,28 @@ resource "aws_instance" "project1-app" {
   # associate elastic IP (optional)
 
   # specify private key (assuming key was previously created)
-  key_name = "blog"
+  key_name = "project1"
   # associate previously made security group with instance
   vpc_security_group_ids = ["${aws_security_group.public-security-group.id}"]
 }
 
 # EC2 instance for database
-resource "aws_instance" "blog-database" {
+resource "aws_instance" "project1-database" {
   # take result from 'data' block above and assign to ami property of instance
   ami           = "${data.aws_ami.ubuntu.id}"
   instance_type = "t2.micro"
 
   tags {
-    Name = "blog_database"
+    Name = "project1_database"
   }
 
   # assign this instance to private subnet created in resources.tf file
-  subnet_id = "${aws_subnet.blog-private-subnet.id}"
+  subnet_id = "${aws_subnet.project1-private-subnet.id}"
 
   # no public IP for this instance
 
   # specify private key (assuming key was previously created)
-  key_name = "blog"
+  key_name = "project1"
   # associate previously made security group with instance
   vpc_security_group_ids = ["${aws_security_group.private-security-group.id}"]
 }
